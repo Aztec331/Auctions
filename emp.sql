@@ -1,0 +1,1 @@
+DELETE FROM auctions_user WHERE id = 2;

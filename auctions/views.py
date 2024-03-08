@@ -20,6 +20,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
 
         # Check if authentication successful
+        # Which means the user exists in the database
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
