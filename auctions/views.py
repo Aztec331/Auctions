@@ -9,7 +9,9 @@ from .models import User,Category,Listing
 
 
 def index(request):
+    #shows all the objects which are active of Listing
     active_listings= Listing.objects.filter(isActive=True)
+    #shows all the categories available
     allCategories= Category.objects.all()
     return render(request, "auctions/index.html",{
         "listings":active_listings,
