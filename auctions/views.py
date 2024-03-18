@@ -3,12 +3,16 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+# Listing here means a particular item with all its details
+from .models import User,Category,Listing
 
-from .models import User
 
 
 def index(request):
-    return render(request, "auctions/index.html")
+    active_listings= Listing.objects.filter(isActive=True)
+    return render(request, "auctions/index.html",{
+        "listings":active_listings
+    })
 
 
 def login_view(request):
@@ -65,4 +69,50 @@ def register(request):
     
 
 def create_listing(request):
-    return render(request,"auctions/create_listing.html")
+    if request.method=="GET":
+        #Category is a model and Category.objects.all means all objects of Category class
+        allCategories= Category.objects.all()
+        return render(request,"auctions/create_listing.html",{
+            "categories":allCategories
+        })
+    else:
+        #Get the data from the form
+        title= request.POST["title"]
+        description= request.POST["description"]
+        category= request.POST["category"]
+        bidding_price= request.POST["bidding_price"]
+        imageURL = request.POST["imageURL"]
+        # Who is the user
+        current_user= request.user
+
+        #get category name from the form, store it in categoryName of Category model
+        #save this data into into categoryData variable and save this variable as 
+        #a new category in a new object of Listing class such that
+        # category = categoryData
+        category_data = Category.objects.get(categoryName= category)
+
+        #Create a new listing object
+        new_listing= Listing(
+            title= title,
+            description=description,
+            bidding_price= float(bidding_price),
+            imageURL=imageURL,
+            category=category_data,
+            owner= current_user
+        )
+        #insert the object in our database
+        new_listing.save()
+        #Redirect to the index page
+        return HttpResponseRedirect(reverse('index'))
+
+def display_category(request):
+    if request.method=="POST":
+        allCategories= Category.objects.all()
+        categoryfromform= request.POST['category']
+        category= Category.objects.get(categoryName= categoryfromform)
+        activeListings= Listing.objects.filter(isActive=True, category= category)
+
+
+
+
+
