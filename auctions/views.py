@@ -10,8 +10,10 @@ from .models import User,Category,Listing
 
 def index(request):
     active_listings= Listing.objects.filter(isActive=True)
+    allCategories= Category.objects.all()
     return render(request, "auctions/index.html",{
-        "listings":active_listings
+        "listings":active_listings,
+        "categories":allCategories
     })
 
 
@@ -108,10 +110,13 @@ def create_listing(request):
 def display_category(request):
     if request.method=="POST":
         allCategories= Category.objects.all()
-        categoryfromform= request.POST['category']
-        category= Category.objects.get(categoryName= categoryfromform)
+        category_from_form= request.POST['category']
+        category= Category.objects.get(categoryName= category_from_form)
         activeListings= Listing.objects.filter(isActive=True, category= category)
-
+        return render(request,"auctions/index.html",{
+            "categories":allCategories,
+            "listings":activeListings
+        })
 
 
 
