@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    <form action="{% url 'display_category' %}" method="POST">
+    <form action="{% url 'display_category' %}" method="POST" class="my-4">
         {% csrf_token %}
         <div class="form-group">
             <label for="category">Choose a category:</label>
@@ -11,7 +11,7 @@
                 <option value="{{category}}">{{category}}</option>
                 {% endfor %}
             </select>
-            <button type="submit" class="btn btn-info">Select</button>
+            <button type="submit" class="btn btn-outline-info">Select</button>
         </div>
     </form>
 
@@ -28,7 +28,7 @@
         <div class="card-body">
           <h5 class="card-title">{{list.title}}</h5>
           <p class="card-text">{{list.description}}</p>
-          <a href="#" class="btn btn-outline-success">Bid</a>
+          <a href="{% url 'listing' id=list.id %}" class="btn btn-outline-success">Bid</a>
         </div>
       </div>
     

@@ -121,5 +121,20 @@ def display_category(request):
         })
 
 
+def listing(request,id):
+    listingData= Listing.objects.get(pk=id)
+    is_listing_in_watchlist = False
+    return render(request, "auctions/listing.html",{
+        "listing":listingData,
+        "is_listing_in_watchlist": is_listing_in_watchlist
+    })
+
+def add_watchlist(request,id):
+    return
+
+def remove_watchlist(request,id):
+    return
+
+
 
 

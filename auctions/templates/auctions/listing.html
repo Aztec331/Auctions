@@ -1,0 +1,51 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <div class="container my-4">
+        {% if user.is_authenticated %}
+            {% if is_listing_in_watchlist %}
+                <form action="{% url 'remove_watchlist' id=listing.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger">Remove from watchlist</button>
+                </form>
+            {% else %}
+                <form action="{% url 'add_watchlist' id=listing.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-success">Add to watchlist</button>
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+
+
+    <div class="container">
+        <div class="form-group">
+            <h3>Videogame:{{listing.title}}</h3>
+        </div>
+
+        <div class="form-group">
+            <img src="{{listing.imageURL}}" alt="{{listing.title}}" height="540px">
+        </div>
+
+        <div class="form-group">
+            <h5>Description</h5>
+            <h6>{{listing.description}}</h6>
+        </div>
+
+        
+        <div class="form-group">
+            <h5>Details:</h5>
+            <h6>Owner:{{listing.owner}}</h6>
+            <h6>Category:{{listing.category}}</h6>
+        </div>
+        
+
+        <div class="form-group">
+            <h5>Current Bid:</h5>
+            <h6>₹{{listing.bidding_price}}</h6>
+        </div>
+
+    </div>
+
+{% endblock %}
