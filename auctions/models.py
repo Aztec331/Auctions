@@ -23,3 +23,4 @@ class Listing(models.Model):
 
     def __str__(self):
         return self.title
+

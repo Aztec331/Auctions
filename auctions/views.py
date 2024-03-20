@@ -130,8 +130,10 @@ def listing(request,id):
     })
 
 def display_watchlist(request):
-    return
-
+    current_user= request.user
+    listings= current_user.listingwatchlist.all()
+    context={"listings":listings}
+    return render(request,"auctions/watchlist.html",context)
 
 def add_watchlist(request,id):
     listingData= Listing.objects.get(pk=id)
