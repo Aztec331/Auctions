@@ -123,17 +123,28 @@ def display_category(request):
 
 def listing(request,id):
     listingData= Listing.objects.get(pk=id)
-    is_listing_in_watchlist = False
+    is_listing_in_watchlist = request.user in listingData.watchlist.all()
     return render(request, "auctions/listing.html",{
         "listing":listingData,
         "is_listing_in_watchlist": is_listing_in_watchlist
     })
 
-def add_watchlist(request,id):
+def display_watchlist(request):
     return
 
+
+def add_watchlist(request,id):
+    listingData= Listing.objects.get(pk=id)
+    current_user= request.user
+    listingData.watchlist.add(current_user)
+    return HttpResponseRedirect(reverse("listing",args=(id,)))
+
 def remove_watchlist(request,id):
-    return
+    listingData= Listing.objects.get(pk=id)
+    current_user= request.user
+    listingData.watchlist.remove(current_user)
+    return HttpResponseRedirect(reverse("listing",args=(id,)))
+
 
 
 
