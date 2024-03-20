@@ -130,6 +130,7 @@ def listing(request,id):
     })
 
 def display_watchlist(request):
+    name= "aditya"
     return
 
 def add_watchlist(request,id):
