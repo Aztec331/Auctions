@@ -132,7 +132,6 @@ def listing(request,id):
 def display_watchlist(request):
     return
 
-
 def add_watchlist(request,id):
     listingData= Listing.objects.get(pk=id)
     current_user= request.user
