@@ -2,27 +2,15 @@
 
 {% block body %}
 
-    <form action="{% url 'display_category' %}" method="POST" class="my-4">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="category">Choose a category:</label>
-            <select name="category" id="category">
-                {% for category in categories%}
-                <option value="{{category}}">{{category}}</option>
-                {% endfor %}
-            </select>
-            <button type="submit" class="btn btn-outline-info">Select</button>
-        </div>
-    </form>
-
     <div class="form-group">
-        <h2>Active Listings</h2>
+        <h2>{{user.username}}'s Watchlist</h2>
     </div>
 
     <div class="row form-group">
     {% for list in listings %}
     
     <!-- here mx means margin x , set margin horizontally for both left and right  -->
+    <!-- here mx means margin y , set margin vertically for both up and down  -->
     <div class="card mx-4 my-3" style="width: 18rem;">
         <img class="card-img-top" src="{{list.imageURL}}" alt="{{list.title}}">
         <div class="card-body">
