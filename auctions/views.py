@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 # Listing here means a particular item with all its details
-from .models import User,Category,Listing
+from .models import User,Category,Listing,Comment
 
 
 
@@ -124,9 +124,11 @@ def display_category(request):
 def listing(request,id):
     listingData= Listing.objects.get(pk=id)
     is_listing_in_watchlist = request.user in listingData.watchlist.all()
+    all_comments= Comment.objects.filter(listing=listingData)
     return render(request, "auctions/listing.html",{
         "listing":listingData,
-        "is_listing_in_watchlist": is_listing_in_watchlist
+        "is_listing_in_watchlist": is_listing_in_watchlist,
+        "all_comments":all_comments
     })
 
 def display_watchlist(request):
@@ -147,7 +149,16 @@ def remove_watchlist(request,id):
     listingData.watchlist.remove(current_user)
     return HttpResponseRedirect(reverse("listing",args=(id,)))
 
+def add_comment(request,id):
+    current_user = request.user
+    listingData= Listing.objects.get(pk=id)
+    message= request.POST['new_comment']
 
+    newComment= Comment(
+        author= current_user,
+        listing= listingData,
+        comment= message
+    )
 
-
-
+    newComment.save()
+    return HttpResponseRedirect(reverse("listing",args=(id,)))

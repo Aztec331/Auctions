@@ -29,6 +29,11 @@
         </div>
 
         <div class="form-group">
+            <h2>Current Bid:</h2>
+            <h2>₹{{listing.bidding_price}}</h2>
+        </div>
+
+        <div class="form-group">
             <h5>Description</h5>
             <h6>{{listing.description}}</h6>
         </div>
@@ -40,12 +45,29 @@
             <h6>Category:{{listing.category}}</h6>
         </div>
         
-
-        <div class="form-group">
-            <h2>Current Bid:</h2>
-            <h2>₹{{listing.bidding_price}}</h2>
-        </div>
-
     </div>
 
+    <div class="container form-group">
+        <h5>Write a comment</h5>
+        {% if user.is_authenticated %}
+            <form action="{% url 'add_comment' id=listing.id%}" method="POST">
+                {% csrf_token %}
+                <textarea name="new_comment" id="" cols="25" rows="3" class="form-control"></textarea><br>
+                <button type="submit" class="btn btn-outline-primary">Submit</button>
+            </form>
+        {% endif %}
+    </div>
+
+    
+    <ul class="container list-group">
+    {% for comment in all_comments %}
+        <li class="list-group-item form-group">
+    
+            <h6> <strong>{{comment.author}}</strong></h6>
+            <h6>{{comment.comment}}</h6>
+             
+        </li>
+    
+    {% endfor %}
+    </ul>
 {% endblock %}
