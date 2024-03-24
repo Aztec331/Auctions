@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 # Listing here means a particular item with all its details
-from .models import User,Category,Listing,Comment
+from .models import User,Category,Listing,Comment,Bid
 
 
 
@@ -95,11 +95,15 @@ def create_listing(request):
         # category = categoryData
         category_data = Category.objects.get(categoryName= category)
 
+        #Create a new bid object 
+        bid= Bid(bid=float(bidding_price), user= current_user)
+        bid.save()
+
         #Create a new listing object
         new_listing= Listing(
             title= title,
             description=description,
-            bidding_price= float(bidding_price),
+            bidding_price= bid,
             imageURL=imageURL,
             category=category_data,
             owner= current_user
@@ -162,3 +166,29 @@ def add_comment(request,id):
 
     newComment.save()
     return HttpResponseRedirect(reverse("listing",args=(id,)))
+
+def add_bid(request,id):
+    new_bid= request.POST["new_bid"]
+    listingData= Listing.objects.get(pk=id)
+    is_listing_in_watchlist = request.user in listingData.watchlist.all()
+    all_comments= Comment.objects.filter(listing=listingData)
+    if float(new_bid) > listingData.bidding_price.bid:
+        updateBid= Bid(user=request.user, bid= (new_bid))
+        updateBid.save()
+        listingData.bidding_price = updateBid
+        listingData.save()
+        context= {"listing":listingData,"message":"Bid updated successfully !","update":True,
+                "is_listing_in_watchlist": is_listing_in_watchlist,
+                "all_comments":all_comments}
+        return render(request,"auctions/listing.html",context)
+
+    else:
+        context= {"listing":listingData,"message":"Bid should be higher than current price","update":False,
+                "is_listing_in_watchlist": is_listing_in_watchlist,
+                "all_comments":all_comments}
+        return render(request,"auctions/listing.html",context)
+
+
+
+
+   

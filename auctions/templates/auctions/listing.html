@@ -18,6 +18,21 @@
         {% endif %}
     </div>
 
+    <div class="container form-group">
+        {% if message %}
+
+            {% if update%}
+            <div class="alert alert-success" role="alert">
+                {{message}}
+            </div>
+            {% else %}
+            <div class="alert alert-danger" role="alert">
+                {{message}}
+            </div>
+            {% endif %}
+
+        {% endif %}
+    </div>
 
     <div class="container">
         <div class="form-group">
@@ -30,7 +45,7 @@
 
         <div class="form-group">
             <h2>Current Bid:</h2>
-            <h2>₹{{listing.bidding_price}}</h2>
+            <h2>₹{{listing.bidding_price.bid}}</h2>
         </div>
 
         <div class="form-group">
@@ -47,9 +62,24 @@
         
     </div>
 
+
     <div class="container form-group">
-        <h5>Write a comment</h5>
         {% if user.is_authenticated %}
+        <h5>Place your bid: </h5>
+            <form action="{% url 'add_bid' id=listing.id %}"  method="POST">
+                {% csrf_token %}
+                <!-- INPUT TAG NAMED new_bid -->
+                <input name="new_bid" type="number" min="0" style="display: inline-block; background-color: transparent;border-width: 0.2px;" >&nbsp;&nbsp;
+                <button type="submit" class="btn btn-outline-warning">Submit</button>
+            </form>
+
+        {% endif %}
+    </div>
+    
+    
+    <div class="container form-group">
+        {% if user.is_authenticated %}
+        <h5>Write a comment</h5>
             <form action="{% url 'add_comment' id=listing.id%}" method="POST">
                 {% csrf_token %}
                 <textarea name="new_comment" id="" cols="25" rows="3" class="form-control"></textarea><br>
