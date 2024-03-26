@@ -129,10 +129,12 @@ def listing(request,id):
     listingData= Listing.objects.get(pk=id)
     is_listing_in_watchlist = request.user in listingData.watchlist.all()
     all_comments= Comment.objects.filter(listing=listingData)
+    is_owner= request.user.username == listingData.owner.username
     return render(request, "auctions/listing.html",{
         "listing":listingData,
         "is_listing_in_watchlist": is_listing_in_watchlist,
-        "all_comments":all_comments
+        "all_comments":all_comments,
+        "is_owner": is_owner
     })
 
 def display_watchlist(request):

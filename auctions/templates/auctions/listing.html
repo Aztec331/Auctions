@@ -4,6 +4,9 @@
 
     <div class="container my-4">
         {% if user.is_authenticated %}
+            {% if is_owner %}
+
+            {% endif %}
             {% if is_listing_in_watchlist %}
                 <form action="{% url 'remove_watchlist' id=listing.id %}" method="POST">
                     {% csrf_token %}
