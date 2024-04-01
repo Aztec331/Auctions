@@ -3,7 +3,7 @@
 {% block body %}
 
     <div class="container my-4">
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and listing.isActive %}
             {% if is_listing_in_watchlist %}
                 <form action="{% url 'remove_watchlist' id=listing.id %}" method="POST">
                     {% csrf_token %}
@@ -34,6 +34,14 @@
         {% endif %}
     </div>
 
+    {% if not listing.isActive and user == listing.bidding_price.user %}
+    <div class="container form-group">
+            <div class="alert alert-success" role="alert" style="width: 400px;">
+                Congratulations ! you won the auction !
+            </div>
+    </div>
+    {% endif %}
+
     <div class="container">
         <div class="form-group">
             <h3>Videogame:{{listing.title}}</h3>
@@ -47,6 +55,18 @@
             <h2>Current Bid:</h2>
             <h2>₹{{listing.bidding_price.bid}}</h2>
         </div>
+<!-- ------------------------------------------------------------ -->
+        <div class="form-group">
+        {% if user.is_authenticated and listing.isActive %}
+            {% if is_owner %}
+            <form action="{% url 'close_bid' id=listing.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-warning">Close Bid</button>
+            </form>
+            {% endif %}
+        {% endif %}
+        </div>
+
 
         <div class="form-group">
             <h5>Description</h5>

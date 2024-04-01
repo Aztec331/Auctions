@@ -129,10 +129,12 @@ def listing(request,id):
     listingData= Listing.objects.get(pk=id)
     is_listing_in_watchlist = request.user in listingData.watchlist.all()
     all_comments= Comment.objects.filter(listing=listingData)
+    is_owner= request.user.username == listingData.owner.username
     return render(request, "auctions/listing.html",{
         "listing":listingData,
         "is_listing_in_watchlist": is_listing_in_watchlist,
-        "all_comments":all_comments
+        "all_comments":all_comments,
+        "is_owner": is_owner
     })
 
 def display_watchlist(request):
@@ -167,11 +169,14 @@ def add_comment(request,id):
     newComment.save()
     return HttpResponseRedirect(reverse("listing",args=(id,)))
 
+
 def add_bid(request,id):
+    '''you can place new bids using this'''
     new_bid= request.POST["new_bid"]
     listingData= Listing.objects.get(pk=id)
     is_listing_in_watchlist = request.user in listingData.watchlist.all()
     all_comments= Comment.objects.filter(listing=listingData)
+    is_owner= request.user.username == listingData.owner.username
     if float(new_bid) > listingData.bidding_price.bid:
         updateBid= Bid(user=request.user, bid= (new_bid))
         updateBid.save()
@@ -179,16 +184,31 @@ def add_bid(request,id):
         listingData.save()
         context= {"listing":listingData,"message":"Bid updated successfully !","update":True,
                 "is_listing_in_watchlist": is_listing_in_watchlist,
-                "all_comments":all_comments}
+                "all_comments":all_comments,"is_owner": is_owner}
         return render(request,"auctions/listing.html",context)
 
     else:
         context= {"listing":listingData,"message":"Bid should be higher than current price","update":False,
                 "is_listing_in_watchlist": is_listing_in_watchlist,
-                "all_comments":all_comments}
+                "all_comments":all_comments,"is_owner": is_owner}
         return render(request,"auctions/listing.html",context)
 
-
+def close_bid(request,id):
+    '''closing bid function'''
+    listingData= Listing.objects.get(pk=id)
+    listingData.isActive= False
+    listingData.save()
+    is_listing_in_watchlist = request.user in listingData.watchlist.all()
+    all_comments= Comment.objects.filter(listing=listingData)
+    is_owner= request.user.username == listingData.owner.username
+    return render(request, "auctions/listing.html",{
+        "listing":listingData,
+        "is_listing_in_watchlist": is_listing_in_watchlist,
+        "all_comments":all_comments,
+        "is_owner": is_owner,
+        "update": True,
+        "message": "Congrats ! your auction is closed."
+    })
 
 
    
