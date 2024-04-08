@@ -26,6 +26,7 @@ class Listing(models.Model):
     isActive= models.BooleanField(default=True)
     owner= models.ForeignKey(User, on_delete=models.CASCADE, blank= True, null= True,related_name="user")
     category= models.ForeignKey(Category, on_delete=models.CASCADE,blank=True, null=True,related_name="category")
+    #the below name is being used in display_watchlist function, careful we use model field name as well as model field's related name 
     watchlist = models.ManyToManyField(User, blank=True, null=True, related_name="listingwatchlist")
 
     def __str__(self):
