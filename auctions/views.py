@@ -19,6 +19,12 @@ def index(request):
     })
 
 
+def your_winnings(request):
+    active_listings= Listing.objects.filter(isActive=True)
+    context = {"listing":active_listings}
+    return render(request,"auctions/your_winnings.html",context)
+
+
 def login_view(request):
     if request.method == "POST":
 
@@ -211,4 +217,3 @@ def close_bid(request,id):
     })
 
 
-   
