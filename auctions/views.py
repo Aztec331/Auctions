@@ -146,6 +146,8 @@ def display_watchlist(request):
 def add_watchlist(request,id):
     listingData= Listing.objects.get(pk=id)
     current_user= request.user
+    #we can use below watchlist field of Listing model because
+    #of the many to many relationship.
     listingData.watchlist.add(current_user)
     return HttpResponseRedirect(reverse("listing",args=(id,)))
 
@@ -167,6 +169,7 @@ def add_comment(request,id):
     )
 
     newComment.save()
+    #always remember we add data to models then use .save() on that variable
     return HttpResponseRedirect(reverse("listing",args=(id,)))
 
 
