@@ -18,6 +18,12 @@ def index(request):
         "categories":allCategories
     })
 
+def display_watchlist(request):
+    current_user= request.user
+    listings= current_user.listingwatchlist.all()
+    active_listings= Listing.objects.filter(isActive=True)
+    context={"listings":listings,"active":active_listings}
+    return render(request,"auctions/watchlist.html",context)
 
 def login_view(request):
     if request.method == "POST":
@@ -137,15 +143,11 @@ def listing(request,id):
         "is_owner": is_owner
     })
 
-def display_watchlist(request):
-    current_user= request.user
-    listings= current_user.listingwatchlist.all()
-    context={"listings":listings}
-    return render(request,"auctions/watchlist.html",context)
-
 def add_watchlist(request,id):
     listingData= Listing.objects.get(pk=id)
     current_user= request.user
+    #we can use below watchlist field of Listing model because
+    #of the many to many relationship
     listingData.watchlist.add(current_user)
     return HttpResponseRedirect(reverse("listing",args=(id,)))
 
@@ -167,6 +169,7 @@ def add_comment(request,id):
     )
 
     newComment.save()
+    #always remember we add data to models then use .save() on that variable
     return HttpResponseRedirect(reverse("listing",args=(id,)))
 
 
