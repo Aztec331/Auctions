@@ -25,6 +25,11 @@ def display_watchlist(request):
     context={"listings":listings,"active":active_listings}
     return render(request,"auctions/watchlist.html",context)
 
+
+
+def your_winnings(request):
+    return
+
 def login_view(request):
     if request.method == "POST":
 
@@ -212,6 +217,3 @@ def close_bid(request,id):
         "update": True,
         "message": "Congrats ! your auction is closed."
     })
-
-
-   

@@ -42,3 +42,9 @@ class Comment(models.Model):
     def __str__(self):
         return f"{self.author} comment on {self.listing} is {self.comment}"
     
+class Winnings(models.Model):
+    winner= models.ForeignKey(User, on_delete=models.CASCADE, related_name= "winner")
+    listing= models.ForeignKey(Listing, on_delete=models.CASCADE,related_name="winner_listing")
+
+    def __str__(self):
+        return f"{self.winnder} wins {self.listing}"
