@@ -2,6 +2,7 @@
 
 {% block body %}
 
+    <!-- ADD/REMOVE watchlist button -->
     <div class="container my-4">
         {% if user.is_authenticated and listing.isActive %}
             {% if is_listing_in_watchlist %}
@@ -18,6 +19,7 @@
         {% endif %}
     </div>
 
+    <!--RELATED TO add_bid function, displays after submitting the bid-->
     <div class="container form-group">
         {% if message %}
 
@@ -43,6 +45,7 @@
     {% endif %}
 
     <div class="container">
+        
         <div class="form-group">
             <h3>Videogame:{{listing.title}}</h3>
         </div>
@@ -55,7 +58,8 @@
             <h2>Current Bid:</h2>
             <h2>₹{{listing.bidding_price.bid}}</h2>
         </div>
-<!-- ------------------------------------------------------------ -->
+
+    <!-- CLOSE BID BUTTON POSTING ON 'close_bid' url -->
         <div class="form-group">
         {% if user.is_authenticated and listing.isActive %}
             {% if is_owner %}
@@ -82,7 +86,7 @@
         
     </div>
 
-
+    <!-- ADD BID/PLACE BID BUTTON posting on add_bid url -->
     <div class="container form-group">
         {% if user.is_authenticated %}
         <h5>Place your bid: </h5>
@@ -96,7 +100,7 @@
         {% endif %}
     </div>
     
-    
+    <!-- ADD COMMENT BUTTON , given text area posting to 'add_comment' url -->
     <div class="container form-group">
         {% if user.is_authenticated %}
         <h5>Write a comment</h5>
@@ -108,7 +112,7 @@
         {% endif %}
     </div>
 
-    
+    <!-- for loop for all the comments -->
     <ul class="container list-group">
     {% for comment in all_comments %}
         <li class="list-group-item form-group">
@@ -120,4 +124,7 @@
     
     {% endfor %}
     </ul>
+
+
+
 {% endblock %}
