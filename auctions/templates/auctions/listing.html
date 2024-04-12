@@ -45,6 +45,7 @@
     {% endif %}
 
     <div class="container">
+        
         <div class="form-group">
             <h3>Videogame:{{listing.title}}</h3>
         </div>
@@ -111,7 +112,7 @@
         {% endif %}
     </div>
 
-    
+    <!-- for loop for all the comments -->
     <ul class="container list-group">
     {% for comment in all_comments %}
         <li class="list-group-item form-group">
@@ -123,4 +124,7 @@
     
     {% endfor %}
     </ul>
+
+
+
 {% endblock %}
