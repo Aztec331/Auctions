@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    <!-- these are the add watchlist/remove watchlist buttons -->
+    <!-- ADD/REMOVE watchlist button -->
     <div class="container my-4">
         {% if user.is_authenticated and listing.isActive %}
             {% if is_listing_in_watchlist %}
@@ -19,6 +19,7 @@
         {% endif %}
     </div>
 
+    <!--RELATED TO add_bid function, displays after submitting the bid-->
     <div class="container form-group">
         {% if message %}
 

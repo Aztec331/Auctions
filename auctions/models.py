@@ -10,7 +10,8 @@ class Category(models.Model):
 
     def __str__(self):
         return self.categoryName
-    
+
+#this model is the custom bid that user will insert
 class Bid(models.Model):
     bid = models.FloatField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank= True, null= True,related_name="user_bid")
@@ -21,6 +22,7 @@ class Bid(models.Model):
 class Listing(models.Model):
     title= models.CharField(max_length=30)
     description= models.CharField(max_length=300)
+    #predefined price that we define at the time of listing on create_listing.html page
     bidding_price= models.ForeignKey(Bid, on_delete=models.CASCADE, blank= True, null= True,related_name="bidding_price")
     imageURL= models.CharField(max_length=300)
     isActive= models.BooleanField(default=True)
