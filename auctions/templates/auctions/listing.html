@@ -2,6 +2,7 @@
 
 {% block body %}
 
+    <!-- these are the add watchlist/remove watchlist buttons -->
     <div class="container my-4">
         {% if user.is_authenticated and listing.isActive %}
             {% if is_listing_in_watchlist %}
@@ -55,7 +56,8 @@
             <h2>Current Bid:</h2>
             <h2>₹{{listing.bidding_price.bid}}</h2>
         </div>
-<!-- ------------------------------------------------------------ -->
+
+    <!-- CLOSE BID BUTTON POSTING ON 'close_bid' url -->
         <div class="form-group">
         {% if user.is_authenticated and listing.isActive %}
             {% if is_owner %}
@@ -82,7 +84,7 @@
         
     </div>
 
-
+    <!-- ADD BID/PLACE BID BUTTON posting on add_bid url -->
     <div class="container form-group">
         {% if user.is_authenticated %}
         <h5>Place your bid: </h5>
@@ -96,7 +98,7 @@
         {% endif %}
     </div>
     
-    
+    <!-- ADD COMMENT BUTTON , given text area posting to 'add_comment' url -->
     <div class="container form-group">
         {% if user.is_authenticated %}
         <h5>Write a comment</h5>
