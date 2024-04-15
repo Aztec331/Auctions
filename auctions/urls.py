@@ -19,3 +19,5 @@ urlpatterns = [
     path("close_bid/<int:id>", views.close_bid, name="close_bid"),
     path("your_winnings", views.your_winnings, name="your_winnings"),
 ]
+
+

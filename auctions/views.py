@@ -22,9 +22,8 @@ def display_watchlist(request):
     current_user= request.user
     listings= current_user.listingwatchlist.all()
     active_listings= Listing.objects.filter(isActive=True)
-    context={"listings":listings,"active":active_listings}
+    context={"listings":listings,"active_listings":active_listings}
     return render(request,"auctions/watchlist.html",context)
-
 
 
 def your_winnings(request):
