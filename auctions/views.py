@@ -18,6 +18,15 @@ def index(request):
         "categories":allCategories
     })
 
+def display_watchlist(request):
+    current_user= request.user
+    listings= current_user.listingwatchlist.filter(isActive=True)
+    active= Listing.objects.filter(isActive=True)
+    context={"listings":listings,"active":active}
+    return render(request,"auctions/watchlist.html",context)
+
+def your_winnings(request):
+    return
 
 def login_view(request):
     if request.method == "POST":
@@ -73,7 +82,6 @@ def register(request):
     
 
 def create_listing(request):
-    '''form for making a new listing'''
     if request.method=="GET":
         #Category is a model and Category.objects.all means all objects of Category class
         allCategories= Category.objects.all()
@@ -127,7 +135,6 @@ def display_category(request):
 
 
 def listing(request,id):
-    '''listing data of a single listing'''
     listingData= Listing.objects.get(pk=id)
     is_listing_in_watchlist = request.user in listingData.watchlist.all()
     all_comments= Comment.objects.filter(listing=listingData)
@@ -139,30 +146,21 @@ def listing(request,id):
         "is_owner": is_owner
     })
 
-def display_watchlist(request):
-    current_user= request.user
-    listings= current_user.listingwatchlist.all()
-    context={"listings":listings}
-    return render(request,"auctions/watchlist.html",context)
-
 def add_watchlist(request,id):
-    '''function for adding in watchlist'''
     listingData= Listing.objects.get(pk=id)
     current_user= request.user
     #we can use below watchlist field of Listing model because
-    #of the many to many relationship.
+    #of the many to many relationship
     listingData.watchlist.add(current_user)
     return HttpResponseRedirect(reverse("listing",args=(id,)))
 
 def remove_watchlist(request,id):
-    '''function for removing from watchlist'''
     listingData= Listing.objects.get(pk=id)
     current_user= request.user
     listingData.watchlist.remove(current_user)
     return HttpResponseRedirect(reverse("listing",args=(id,)))
 
 def add_comment(request,id):
-    '''function for adding new comments on listing page'''
     current_user = request.user
     listingData= Listing.objects.get(pk=id)
     message= request.POST['new_comment']
@@ -217,6 +215,3 @@ def close_bid(request,id):
         "update": True,
         "message": "Congrats ! your auction is closed."
     })
-
-
-   
