@@ -1,0 +1,28 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <div class="form-group">
+        <h2>{{user.username}}'s Winnings</h2>
+    </div>
+
+
+    <div class="row form-group">
+    {% for win in winnings %}
+    
+    <!-- here mx means margin x , set margin horizontally for both left and right  -->
+    <!-- here mx means margin y , set margin vertically for both up and down  -->
+    <div class="card mx-4 my-3" style="width: 18rem;">
+        <img class="card-img-top" src="{{list.imageURL}}" alt="{{list.title}}">
+        <div class="card-body">
+          <h5 class="card-title">{{list.title}}</h5>
+          <p class="card-text">{{list.description}}</p>
+          <a href="{% url 'listing' id=list.id %}" class="btn btn-outline-success">Bid</a>
+        </div>
+      </div>
+    
+    {% endfor %}
+    </div>
+
+    
+{% endblock %}

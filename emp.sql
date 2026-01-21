@@ -1,0 +1,1 @@
+DELETE FROM auctions_listing WHERE id = 10;

@@ -1,0 +1,12 @@
+  <!-- <form action="{% url 'display_category' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="category">Choose a category:</label>
+            <select name="category" id="category">
+                {% for category in categories%}
+                <option value="{{category}}">{{category}}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-info">Select</button>
+    </div>
+    </form> -->
